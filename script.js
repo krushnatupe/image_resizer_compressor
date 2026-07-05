@@ -88,7 +88,14 @@ const elements = {
     loadingText: document.getElementById('loadingText'),
     
     // Canvas
-    processingCanvas: document.getElementById('processingCanvas')
+    processingCanvas: document.getElementById('processingCanvas'),
+    
+    // Contact Form
+    contactForm: document.getElementById('contactForm'),
+    contactName: document.getElementById('contactName'),
+    contactEmail: document.getElementById('contactEmail'),
+    contactSubject: document.getElementById('contactSubject'),
+    contactMessage: document.getElementById('contactMessage')
 };
 
 // ============================================
@@ -1268,11 +1275,59 @@ function initEventListeners() {
             elements.fileInput.click();
         }
     });
+    
+    // Contact form submission
+    elements.contactForm.addEventListener('submit', handleContactFormSubmit);
 }
 
 // ============================================
-// Initialize Application
+// Contact Form Functions
 // ============================================
+
+/**
+ * Handle contact form submission
+ */
+function handleContactFormSubmit(e) {
+    e.preventDefault();
+    
+    const name = elements.contactName.value.trim();
+    const email = elements.contactEmail.value.trim();
+    const subject = elements.contactSubject.value.trim();
+    const message = elements.contactMessage.value.trim();
+    
+    // Validate inputs
+    if (!name || !email || !subject || !message) {
+        showToast('Please fill in all fields', 'error');
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showToast('Please enter a valid email address', 'error');
+        return;
+    }
+    
+    // Create mailto link with form data
+    const recipientEmail = 'krushnatupe11@gmail.com';
+    const mailtoSubject = encodeURIComponent(`Contact Form: ${subject}`);
+    const mailtoBody = encodeURIComponent(
+        `Name: ${name}\n` +
+        `Email: ${email}\n\n` +
+        `Message:\n${message}`
+    );
+    
+    const mailtoLink = `mailto:${recipientEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+    
+    // Show success message
+    showToast('Opening email client...', 'success');
+    
+    // Reset form
+    elements.contactForm.reset();
+}
 
 /**
  * Initialize the application
