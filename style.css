@@ -1077,6 +1077,8 @@ body {
     margin-bottom: 0;
 }
 
+.contact-form input[type="text"],
+.contact-form input[type="email"],
 .contact-form textarea {
     width: 100%;
     padding: var(--spacing-md);
@@ -1086,15 +1088,22 @@ body {
     background: var(--bg-input);
     color: var(--text-primary);
     transition: border-color var(--transition-fast);
-    resize: vertical;
     font-family: inherit;
 }
 
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
 .contact-form textarea:focus {
     outline: none;
     border-color: var(--border-focus);
 }
 
+.contact-form input[type="text"]::placeholder,
+.contact-form input[type="email"]::placeholder,
 .contact-form textarea::placeholder {
     color: var(--text-tertiary);
 }
